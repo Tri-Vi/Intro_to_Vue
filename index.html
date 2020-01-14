@@ -1,12 +1,23 @@
 <html>
   <head>
     <title>Product App</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   </head>
   <body>
+    <div class="nav-bar"></div>
+
     <div id="app">
-      <h1>{{ product }}</h1>
-      <p>{{ description }}</p>
+      <div class="product">
+        <div class="product-image">
+          <img :src="image" :alt="altText" :href="hrefLink">
+        </div>
+
+        <div class="product-info">
+            <h1>{{ product }}</h1>
+        </div>
+      </div>
+  
     </div>
   </body>
   <script src="main.js"></script>
