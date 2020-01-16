@@ -3,7 +3,7 @@ var app = new Vue({
   data: {
     product: "Product",
     description: "This is a sock description",
-    image: './assets/image_1.jpg',
+    image: './assets/image_2.jpg',
     altText: 'altText',
     hrefLink: '',
     inventory: 100,
@@ -12,13 +12,34 @@ var app = new Vue({
     variants: [
       {
         variantId: 1234,
-        variantColor: "green"
+        variantColor: "green",
+        variantImage: './assets/image_1.jpg'
       },
       {
         variantId: 1235,
-        variantColor: "blue"
+        variantColor: "blue",
+        variantImage: './assets/image_2.jpg'
+      },
+      {
+        variantId: 1236,
+        variantColor: "multi",
+        variantImage: './assets/image_3.jpg'
       }
     ],
-    volumns: ["3.4oz", "6oz"]
+    cart: 0,
+  },
+  methods: {
+    addToCart(){
+      this.cart +=1;
+    },
+    updateProduct(variantImage){
+      this.image = variantImage;
+    },
+    removeFromCart(){
+      if(this.cart > 0){
+        this.cart -= 1;
+      }
+      
+    }
   }
 });

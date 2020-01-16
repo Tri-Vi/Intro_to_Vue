@@ -5,3 +5,23 @@
   display: flex;
 }
 
+.addBtn {
+  background-color: blue;
+  color: white;
+  padding: 10px 10px 10px 10px;
+}
+.removeBtn {
+  background-color: red;
+  color: white;
+  padding: 10px 10px 10px 10px;
+}
+.cart {
+  border: 1px solid grey;
+  padding: 5px 5px 5px 5px;
+  text-align: center;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
