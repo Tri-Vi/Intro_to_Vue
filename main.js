@@ -2,11 +2,11 @@ var app = new Vue({
   el: '#app',
   data: {
     product: "Product",
-    description: "This is a sock description",
     image: './assets/image_2.jpg',
     altText: 'altText',
     hrefLink: '',
-    inventory: 100,
+    inventory: 0,
+    inStock: false,
     onSale: true,
     details: ["detail 1", "detail 2", "detail 3"],
     variants: [
@@ -22,7 +22,7 @@ var app = new Vue({
       },
       {
         variantId: 1236,
-        variantColor: "multi",
+        variantColor: "orange",
         variantImage: './assets/image_3.jpg'
       }
     ],
