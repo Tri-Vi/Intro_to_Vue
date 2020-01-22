@@ -36,14 +36,15 @@ Vue.component('product', {
         </div>
         
         <div class="row">
+          <!-- Add To Cart BTN -->
           <button class="addBtn" 
                   v-on:click="addToCart"
                   :disabled="!inStock"
                   :class="{ disabledButton: !inStock}">Add To Cart</button>
-          <button class="removeBtn" v-on:click="removeFromCart">Remove From Cart</button>
-          <div class="cart">
-            <p>Cart ({{cart}})</p>
-          </div>
+
+          <!-- Remove From Cart BTN -->
+          <button class="removeBtn" 
+                  v-on:click="removeFromCart">Remove From Cart</button>
         </div>
     </div>
   </div>
@@ -78,22 +79,21 @@ Vue.component('product', {
           variantQuantity: 0,
           variantOnSale: false
         }
-      ],
-      cart: 0,
+      ]
     }
   },
   methods: {
     addToCart(){
-      this.cart +=1;
+      this.$emit('add-to-cart', this.variants[this.selectedIndex].variantId);
     },
     updateProduct(index){
       this.selectedIndex = index;
     },
     removeFromCart(){
-      if(this.cart > 0){
-        this.cart -= 1;
-      }
-      
+      // if(this.cart > 0){
+      //   this.cart -= 1;
+      // }
+      this.$emit('remove-from-cart', this.variants[this.selectedIndex].variantId);
     }
   },
   computed: {
@@ -153,6 +153,19 @@ Vue.component('product-details', {
 var app = new Vue({
   el: '#app',
   data: {
-    premium: true
+    premium: true,
+    cart: [],
+  },
+  methods: {
+    updateCart(id){
+      this.cart.push(id);
+    },
+    removeItem(id){
+      for(var i = this.cart.length - 1; i>=0; i--){
+        if(this.cart[i] === id){
+          this.cart.splice(i, 1);
+        }
+      }
+    }
   }
 });
