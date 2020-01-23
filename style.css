@@ -31,10 +31,12 @@
   margin-right: 10px;
 }
 .color-box {
-  width: 50px;
+  width: 100px;
   height: 50px;
   margin-top: 5px;
+  border-radius: 5px;
   text-align: center;
+  color: white;
 }
 .disabledButton {
   background-color: #d8d8d8;
@@ -66,5 +68,12 @@
   width: 100%;
   margin: 0 auto;
 }
-
+.activeTab {
+  text-decoration: underline;
+  color: #123456
+}
+.tab {
+  padding-left: 5px;
+  padding-right: 5px;
+}
 

@@ -1,5 +1,7 @@
-// Component - product
+// Global Event Bus
+var eventBus = new Vue();
 
+// Component - product
 Vue.component('product', {
   props: {
     premium: {
@@ -18,13 +20,9 @@ Vue.component('product', {
         <p v-if="inventory > 10">In Stock</p>
         <p v-else-if="inventory <= 10 && inventory  > 0">Almost Sold Out</p>
         <p v-else :class="{ outOfStock: !inStock }">Out of Stock</p>
-        <p> Shipping: {{shipping}}</p>
         
         <p v-if="onSale">On Sale!</p>
         
-        <!-- Product Detail -->
-        <product-details :details="details"></product-details>
-
         <!-- Variant -->
         <div class="row">
           <div v-for="(variant, index) in variants" 
@@ -47,20 +45,10 @@ Vue.component('product', {
                   v-on:click="removeFromCart">Remove From Cart</button>
         </div>
 
-        <div>
-          <h2>Reviews</h2>
-          <p v-if="!reviews.length">There are no reviews yet</p>
-          <ul>
-            <li v-for="review in reviews">
-              <p>{{review.name}}</p>
-              <p>Rating: {{review.rating}}</p>
-              <p>{{review.review}}</p>
-              <p>Recommend: {{review.recommend}}</p>
-            </li>
-          </ul>
-        </div>
 
-        <product-review @review-submitted="addReview"></product-review>
+        <product-tabs :reviews="reviews"
+                      :shipping="shipping"
+                      :details="details"></product-tabs>
     </div>
   </div>
   `,
@@ -107,11 +95,12 @@ Vue.component('product', {
     },
     removeFromCart(){
       this.$emit('remove-from-cart', this.variants[this.selectedIndex].variantId);
-    },
-    addReview(productReview){
-      this.reviews.push(productReview);
-      console.log(this.reviews);
     }
+  },
+  mounted(){
+    eventBus.$on('review-submmited', productReview => {
+      this.reviews.push(productReview);
+    })
   },
   computed: {
     title() {
@@ -175,9 +164,9 @@ Vue.component('product-review', {
       <p v-if="errors.length">
         <b>Please correct the following error(s):</b>
         <ul>
-          <li v-for="error in erros">
+          <li v-for="error in errors">
             {{error}}
-          <li>
+          </li>
         </ul>
       </p>
 
@@ -237,7 +226,7 @@ Vue.component('product-review', {
           rating: this.rating,
           recommend: this.recommend
         }
-        this.$emit('review-submitted', productReview);
+        eventBus.$emit('review-submitted', productReview);
         //Reset product review data
         this.name = null;
         this.review = null;
@@ -250,6 +239,71 @@ Vue.component('product-review', {
         if(!this.recommend) this.errors.push("Recommend required");
       }
     }
+  },
+  computed: {
+
+  }
+})
+
+// Component - Product tabs
+Vue.component('product-tabs', {
+  template:`
+    <div>
+      <span class="tab"
+            :class="{activeTab: selectedTab === tab}"
+            v-for="(tab, index) in tabs" 
+            :key="index"
+            @click="selectedTab = tab">
+            {{tab}}
+      </span>
+
+      <!-- Reviews -- >
+      <div v-show="selectedTab === 'Reviews'">
+        <h2>Reviews</h2>
+        <p v-if="!reviews.length">There are no reviews yet</p>
+        <ul>
+          <li v-for="review in reviews">
+            <p>{{review.name}}</p>
+            <p>Rating: {{review.rating}}</p>
+            <p>{{review.review}}</p>
+            <p>Recommend: {{review.recommend}}</p>
+          </li>
+        </ul>
+        </div>
+
+
+      <!-- Make Review -->
+      <product-review v-show="selectedTab === 'Make a Review'"></product-review>
+
+      <!-- Shipping -->
+      <p v-show="selectedTab === 'Shipping'"> Shipping: {{shipping}}</p>
+
+      <!-- Product Detail -->
+      <product-details v-show="selectedTab === 'Details'" :details="details"></product-details>
+    </div>
+  `,
+  props: {
+    reviews: {
+      type: Array,
+      required: true
+    },
+    shipping: {
+      type: String,
+      required: true
+    },
+    details: {
+      type: Array,
+      required: true
+    }
+  },
+  data(){
+    return {
+      tabs: ['Reviews', 'Make a Review', 'Shipping', 'Details'],
+      selectedTab: 'Reviews'
+    }
+  },
+  methods: {
+
   },
   computed: {
 
