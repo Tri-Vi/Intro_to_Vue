@@ -42,4 +42,29 @@
 .outOfStock {
   text-decoration: line-through;
 }
+.review-form {
+  width: 500px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid grey;
+}
+.form-group {
+  width: 450px;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+.form-group label {
+  width: 100px;
+}
+.form-group input {
+  width: 100%;
+}
+.form-group textarea {
+  width: 100%;
+}
+.form-group select {
+  width: 100%;
+  margin: 0 auto;
+}
+
 
